@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streamlining Visitor Appointments - Research Publication</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0f1115;
+            --bg-card: #181b21;
+            --primary: #3b82f6; /* Modern Blue */
+            --primary-dark: #2563eb;
+            --accent: #8b5cf6; /* Violet */
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --glass: rgba(255, 255, 255, 0.03);
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Reset & Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        a { text-decoration: none; transition: all 0.3s ease; }
+
+        /* Background Effects */
+        .ambient-light {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.08), transparent 25%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* --- NAV --- */
+        nav {
+            padding: 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .brand {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-link {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-left: 20px;
+        }
+        .nav-link:hover { color: var(--primary); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 6rem 0 4rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: var(--primary);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+            background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.9rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* --- GLASS CARDS (Problem/Solution) --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .glass-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Gradient glow inside card */
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 150px; height: 150px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.05), transparent 70%);
+            opacity: 0.5;
+        }
+
+        .icon-box {
+            width: 50px; height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .icon-red { background: rgba(239, 68, 68, 0.1); color: #f87171; }
+        .icon-green { background: rgba(34, 197, 94, 0.1); color: #4ade80; }
+        .icon-blue { background: rgba(59, 130, 246, 0.1); color: #60a5fa; }
+
+        /* --- METHODOLOGY --- */
+        .method-section {
+            padding: 4rem 0;
+        }
+        .section-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        .section-header h2 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .section-header p { color: var(--text-muted); }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .step-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+        }
+        .step-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.05);
+            line-height: 1;
+            margin-bottom: -10px;
+        }
+        .step-title { font-weight: 600; margin-bottom: 5px; color: var(--primary); }
+        .step-desc { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* --- CERTIFICATE --- */
+        .cert-section {
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .cert-frame {
+            display: inline-block;
+            padding: 10px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        .cert-frame img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+            margin-top: 4rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* --- RESPONSIVE ADJUSTMENTS --- */
+        @media (max-width: 768px) {
+            .steps-container {
+                grid-template-columns: 1fr; /* Stack steps vertically on mobile */
+            }
+            .step-card {
+                display: flex;
+                align-items: center;
+                text-align: left;
+                gap: 1rem;
+            }
+            .step-number { margin-bottom: 0; width: 40px; font-size: 2rem; }
+            .hero h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-light"></div>
+
+    <div class="container">
+        <nav>
+            <div class="brand">Alahi Majnur Osama <span style="font-weight:300; opacity:0.5; font-size:0.9em;">/ Research</span></div>
+            <div>
+                <a href="https://amiosama.vercela.app/" class="nav-link">Portfolio</a>
+            </div>
+        </nav>
+    </div>
+
+    <section class="hero">
+        <div class="container">
+            <div class="tag"><i class="fas fa-check-circle"></i> Published Paper</div>
+            <h1>Streamlining Visitor Appointments</h1>
+            <p>An automated, web-based scheduling architecture designed to eliminate administrative inefficiencies at BGC Trust University Bangladesh.</p>
+            
+            <div class="btn-group">
+                <a href="https://www.irjmets.com/paperdetail.php?paperId=0a9b99b5dd19bb09946b4a3bf2088409&title=Streamlining+Visitor+Appointments%3A+Automated+Scheduling+System+for+BGCTrust+University+Bangladesh&authpr=Marjahan+Tanjin" target="_blank" class="btn btn-primary">
+                    Read Publication <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="#certificate" class="btn btn-outline">
+                    View Certificate
+                </a>
+            </div>
+            <div style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+                Authored by <strong style="color:white;">Marjahan Tanjin</strong> & <strong style="color:white;">Alahi Majnur Osama</strong>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="features-grid">
+            <div class="glass-card">
+                <div class="icon-box icon-red"><i class="fas fa-times-circle"></i></div>
+                <h3>The Challenge</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                    Manual visitor logs were creating significant data redundancy and long wait times. The physical presence requirement for booking slots caused scheduling conflicts and administrative bottlenecks.
+                </p>
+            </div>
+
+            <div class="glass-card">
+                <div class="icon-box icon-green"><i class="fas fa-check-circle"></i></div>
+                <h3>The Solution</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                    We engineered a fully automated Web Application. It uses secure algorithms for real-time slot allocation, offering a dual-interface for Admins and Visitors to manage time seamlessly.
+                </p>
+            </div>
+
+            <div class="glass-card">
+                <div class="icon-box icon-blue"><i class="fas fa-code"></i></div>
+                <h3>Core Tech</h3>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                    Built using modern web standards. Features include Role-Based Access Control (RBAC), real-time database updates, and a responsive UI for mobile & desktop access.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <section class="method-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Research Methodology</h2>
+                <p>A rigorous SDLC approach was used to ensure system stability.</p>
+            </div>
+
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <div>
+                        <div class="step-title">Analysis</div>
+                        <div class="step-desc">Identified workflow bottlenecks in manual logs.</div>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">02</div>
+                    <div>
+                        <div class="step-title">Design</div>
+                        <div class="step-desc">Architected secure DB & User Interface.</div>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">03</div>
+                    <div>
+                        <div class="step-title">Dev</div>
+                        <div class="step-desc">Implementation of automation algorithms.</div>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">04</div>
+                    <div>
+                        <div class="step-title">Review</div>
+                        <div class="step-desc">Testing, documentation & peer publication.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="certificate" class="cert-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Publication Certificate</h2>
+                <p>International Research Journal of Modernization in Engineering Technology and Science</p>
+            </div>
+            
+            <div class="cert-frame">
+                <img src="https://alahimajnurosama.github.io/portfolio/assets/images/blog-1.jpg" alt="Publication Certificate">
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <a href="https://www.irjmets.com/" target="_blank" class="btn btn-outline" style="font-size: 0.9rem;">
+                    <i class="fas fa-external-link-alt"></i> Verify with IRJMETS
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Alahi Majnur Osama. All Rights Reserved.</p>
+            <p style="margin-top: 10px;">
+                <a href="https://www.researchgate.net/profile/Alahi-Majnur-Osama" target="_blank" style="color: var(--primary);">ResearchGate</a> 
+                <span style="opacity: 0.3; margin: 0 10px;">|</span>
+                <a href="https://alahimajnurosama.github.io/portfolio/" target="_blank" style="color: var(--primary);">Portfolio</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
