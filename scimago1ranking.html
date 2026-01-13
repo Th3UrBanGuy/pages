@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Excellence - BGC Trust University Ranking</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- THEME VARIABLES (Gold/Prestige Theme) --- */
+        :root {
+            /* Default Light Mode */
+            --bg-body: #ffffff;
+            --bg-card: #f8f9fa;
+            --bg-nav: rgba(255, 255, 255, 0.8);
+            --text-main: #111111;
+            --text-muted: #666666;
+            --border: #e5e5e5;
+            --accent: #d97706; /* Gold/Amber */
+            --accent-glow: rgba(217, 119, 6, 0.15);
+            --shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --gradient-1: #fbbf24; /* Amber 400 */
+            --gradient-2: #b45309; /* Amber 700 */
+        }
+
+        /* Dark Mode Variables */
+        body.dark-mode {
+            --bg-body: #050505; /* Deep Black */
+            --bg-card: #0f0f0f;
+            --bg-nav: rgba(5, 5, 5, 0.8);
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+            --border: #222222;
+            --accent: #f59e0b; /* Bright Gold */
+            --accent-glow: rgba(245, 158, 11, 0.1);
+            --shadow: 0 20px 50px rgba(0,0,0,0.7);
+            --gradient-1: #fbbf24;
+            --gradient-2: #78350f;
+        }
+
+        /* --- RESET & BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+        
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        a { text-decoration: none; }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* --- NAVBAR --- */
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 1rem 0;
+            background: var(--bg-nav);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .brand { font-weight: 700; font-size: 1.1rem; color: var(--text-main); }
+
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            padding: 10rem 0 6rem;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Gold Glow Effects */
+        .blur-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.15;
+            z-index: -1;
+        }
+        .blur-1 { top: -20%; left: 50%; transform: translateX(-50%); width: 600px; height: 300px; background: var(--gradient-1); }
+
+        .rank-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            background: var(--accent-glow);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero h1 span {
+            background: linear-gradient(135deg, #fff, #fbbf24); /* White to Gold */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Dark mode specific text gradient override if needed */
+        body:not(.dark-mode) .hero h1 span {
+            background: linear-gradient(135deg, #000, #d97706);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 1rem 2.5rem;
+            border-radius: 100px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            color: #000;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+        }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(251, 191, 36, 0.5); }
+
+        /* --- STATS GRID --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+        }
+        .stat-number { font-size: 2.5rem; font-weight: 700; color: var(--accent); margin-bottom: 0.5rem; }
+        .stat-label { color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- METHODOLOGY --- */
+        .content-block {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .method-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 3rem;
+        }
+        .method-text { flex: 1 1 400px; }
+        .method-visual { flex: 1 1 300px; }
+
+        .step-list { list-style: none; margin-top: 1.5rem; }
+        .step-list li {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+        }
+        .step-icon {
+            min-width: 40px; height: 40px;
+            border-radius: 50%;
+            background: var(--accent-glow);
+            color: var(--accent);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold;
+        }
+
+        /* --- CERTIFICATE --- */
+        .cert-section {
+            padding: 4rem 0;
+            text-align: center;
+        }
+        .cert-frame {
+            display: inline-block;
+            padding: 10px;
+            background: linear-gradient(45deg, #444, #000); /* Metallic dark frame */
+            border: 1px solid #333;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            max-width: 100%;
+            margin-top: 2rem;
+            position: relative;
+        }
+        
+        /* Gold Accent on Frame */
+        .cert-frame::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            z-index: -1;
+            background: linear-gradient(45deg, var(--gradient-1), transparent 60%);
+            border-radius: 14px;
+        }
+
+        .cert-frame img { max-width: 100%; border-radius: 6px; display: block; height: auto; }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--border);
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.8rem; }
+        }
+    </style>
+</head>
+<body class="dark-mode">
+
+    <nav>
+        <div class="container nav-content">
+            <div class="brand">Alahi Majnur Osama<span style="color:var(--accent);">.</span></div>
+            <button class="theme-toggle" id="themeBtn">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="blur-orb blur-1"></div>
+
+    <section class="hero">
+        <div class="container">
+            <div class="rank-badge"><i class="fas fa-trophy"></i> SCIMAGO INSTITUTIONS RANKING 2024</div>
+            <h1>Driving Institutional<br><span>Academic Excellence</span></h1>
+            <p>Contributing to BGC Trust University's historic rise to the <strong>No. 1 University in Bangladesh</strong> through impactful research and scholarly publication.</p>
+            
+            <a href="#certificate" class="btn btn-gold">
+                View Recognition <i class="fas fa-arrow-down"></i>
+            </a>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">#1</div>
+                <div class="stat-label">In Bangladesh</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2024</div>
+                <div class="stat-label">Scimago Ranking</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number"><i class="fas fa-check"></i></div>
+                <div class="stat-label">Contribution Verified</div>
+            </div>
+        </div>
+    </div>
+
+    <section class="content-block">
+        <div class="container">
+            <div class="method-row">
+                <div class="method-text">
+                    <h2 style="margin-bottom: 1rem;">Contribution Methodology</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+                        The Scimago Institutions Rankings (SIR) classifies academic institutions by research performance, innovation outputs, and societal impact. My individual contribution played a role in this collective achievement.
+                    </p>
+                    
+                    <ul class="step-list">
+                        <li>
+                            <div class="step-icon">1</div>
+                            <div>
+                                <h4>Impactful Research</h4>
+                                <p style="font-size: 0.9rem; color: var(--text-muted);">Conducted rigorous study on automated systems (Visitor Appointments), focusing on real-world utility.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="step-icon">2</div>
+                            <div>
+                                <h4>International Publication</h4>
+                                <p style="font-size: 0.9rem; color: var(--text-muted);">Successfully published findings in IRJMETS, adding to the university's global citation footprint.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="step-icon">3</div>
+                            <div>
+                                <h4>Elevating Standards</h4>
+                                <p style="font-size: 0.9rem; color: var(--text-muted);">The cumulative effect of quality publications propelled the university's innovation index score.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="method-visual">
+                    <div style="background: var(--bg-card); padding: 2rem; border-radius: 16px; border: 1px solid var(--border); position: relative;">
+                        <div style="display:flex; align-items: flex-end; justify-content: space-between; height: 150px; padding-bottom: 10px; border-bottom: 2px solid var(--border);">
+                            <div style="width: 20%; background: var(--border); height: 40%; border-radius: 4px;"></div>
+                            <div style="width: 20%; background: var(--border); height: 60%; border-radius: 4px;"></div>
+                            <div style="width: 20%; background: var(--border); height: 50%; border-radius: 4px;"></div>
+                            <div style="width: 20%; background: linear-gradient(to top, var(--accent), var(--gradient-1)); height: 90%; border-radius: 4px; position: relative;">
+                                <span style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-size: 0.8rem; color: var(--accent); font-weight: bold;">2024</span>
+                            </div>
+                        </div>
+                        <p style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">Growth in Academic Output</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="certificate" class="cert-section">
+        <div class="container">
+            <h2>Certificate of Excellence</h2>
+            <p style="color: var(--text-muted);">Official recognition for contribution to the university's ranking.</p>
+            
+            <div class="cert-frame">
+                <img src="https://alahimajnurosama.github.io/portfolio/assets/images/blog-2.jpg" alt="Academic Excellence Certificate">
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Alahi Majnur Osama. Part of BGC Trust University's Success Story.</p>
+        <p style="margin-top:0.5rem">
+            <a href="https://alahimajnurosama.github.io/portfolio/" target="_blank" style="color:var(--text-main); font-weight: 600;">Back to Portfolio</a>
+        </p>
+    </footer>
+
+    <script>
+        const themeBtn = document.getElementById('themeBtn');
+        const body = document.body;
+        const icon = themeBtn.querySelector('i');
+
+        function updateIcon() {
+            if (body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+
+        themeBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            updateIcon();
+        });
+
+        updateIcon();
+    </script>
+
+</body>
+</html>
