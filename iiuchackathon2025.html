@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Codex | IIUC NextGen Hackathon</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;800&family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- THEME CONFIGURATION --- */
+        :root {
+            /* Light Mode Default */
+            --bg-body: #f4f6f8;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            
+            /* AI / NextGen Accents */
+            --primary: #8b5cf6; /* Violet */
+            --primary-glow: rgba(139, 92, 246, 0.4);
+            --secondary: #06b6d4; /* Cyan */
+            --secondary-glow: rgba(6, 182, 212, 0.4);
+            
+            --scanline-opacity: 0.03;
+        }
+
+        body.dark-mode {
+            --bg-body: #030014; /* Deep AI Black */
+            --bg-card: #0f0b29;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #1e1b4b;
+            
+            /* Neon Mode */
+            --primary: #a78bfa;
+            --primary-glow: rgba(167, 139, 250, 0.6);
+            --secondary: #22d3ee;
+            --secondary-glow: rgba(34, 211, 238, 0.5);
+            
+            --scanline-opacity: 0.12;
+        }
+
+        /* --- GLOBAL --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease; }
+        
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* --- CRT SCANLINE EFFECT --- */
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 999;
+            opacity: var(--scanline-opacity);
+        }
+
+        /* --- NAV --- */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 1.5rem;
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            background: rgba(var(--bg-body), 0.7);
+        }
+        
+        .brand span { color: var(--primary); font-weight: 800; }
+        
+        .theme-switch {
+            cursor: pointer;
+            width: 50px; height: 26px;
+            background: var(--border);
+            border-radius: 50px;
+            position: relative;
+            display: flex; align-items: center; padding: 3px;
+        }
+        .theme-switch .ball {
+            width: 20px; height: 20px; background: white; border-radius: 50%;
+            transition: transform 0.3s;
+            transform: translateX(0);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        body.dark-mode .theme-switch .ball { transform: translateX(24px); background: var(--primary); }
+
+        /* --- HERO --- */
+        .hero {
+            padding: 8rem 1rem 5rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero::before {
+            content: ''; position: absolute; top: -50%; left: 50%; transform: translateX(-50%);
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            opacity: 0.2;
+            z-index: -1;
+            filter: blur(80px);
+        }
+
+        .badge {
+            display: inline-block; padding: 6px 16px;
+            border-radius: 50px; font-size: 0.85rem; font-weight: 700;
+            background: rgba(139, 92, 246, 0.1); border: 1px solid var(--primary); color: var(--primary);
+            margin-bottom: 1.5rem; letter-spacing: 1px;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.1; margin-bottom: 1.5rem;
+        }
+        
+        h1 .highlight {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            max-width: 650px; margin: 0 auto 3rem;
+            font-size: 1.15rem; color: var(--text-muted);
+        }
+
+        /* --- TEAM CARD --- */
+        .team-container {
+            display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 4rem;
+        }
+        .member-pill {
+            display: flex; align-items: center; gap: 10px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            padding: 10px 20px; border-radius: 50px;
+            font-weight: 500; font-size: 0.95rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .member-pill i { color: var(--secondary); }
+
+        /* --- PROBLEM/SOLUTION GRID --- */
+        .grid-section {
+            max-width: 1100px; margin: 0 auto 5rem; padding: 0 1.5rem;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 20px; padding: 2.5rem;
+            position: relative; overflow: hidden;
+        }
+        
+        .info-card h2 { margin-bottom: 1rem; color: var(--text-main); font-size: 1.5rem; }
+        .info-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+        .icon-box {
+            width: 50px; height: 50px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-bottom: 1.5rem;
+        }
+        .icon-sdg { background: rgba(6, 182, 212, 0.1); color: var(--secondary); }
+        .icon-ai { background: rgba(139, 92, 246, 0.1); color: var(--primary); }
+
+        /* --- FEATURES --- */
+        .features-wrap {
+            padding: 4rem 1.5rem; background: rgba(var(--bg-body), 0.5);
+            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+        }
+        
+        .feature-list {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem; margin-top: 3rem;
+        }
+
+        .feature-item {
+            background: var(--bg-card); padding: 1.5rem; border-radius: 16px;
+            border: 1px solid var(--border); transition: transform 0.3s;
+        }
+        .feature-item:hover { transform: translateY(-5px); border-color: var(--primary); }
+        
+        .feature-item h3 { font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main); }
+        .feature-item p { font-size: 0.85rem; color: var(--text-muted); }
+        .f-icon { color: var(--secondary); margin-bottom: 10px; font-size: 1.2rem; }
+
+        /* --- TERMINAL --- */
+        .tech-showcase { max-width: 800px; margin: 4rem auto; padding: 0 1.5rem; }
+        .terminal {
+            background: #0f172a; border-radius: 12px; padding: 1.5rem;
+            border: 1px solid #334155; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;
+        }
+        .terminal-header {
+            display: flex; gap: 8px; margin-bottom: 1rem; border-bottom: 1px solid #334155; padding-bottom: 10px;
+        }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.red { background: #ef4444; } .dot.yellow { background: #f59e0b; } .dot.green { background: #22c55e; }
+        .code-line { display: block; margin-bottom: 8px; color: #94a3b8; }
+        .cl-green { color: #4ade80; } .cl-purple { color: #a78bfa; } .cl-cyan { color: #22d3ee; }
+
+        /* --- ACHIEVEMENTS --- */
+        .achievements-section {
+            padding: 4rem 0;
+            background: rgba(var(--bg-body), 0.5);
+            border-top: 1px solid var(--border);
+        }
+        .achievements-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;
+        }
+        .achievement-col { display: flex; flex-direction: column; gap: 1.5rem; }
+        .achievement-img-container {
+            border-radius: 16px; overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .achievement-img-container img { width: 100%; height: auto; display: block; }
+
+        /* --- MEMORIES (Google Photos) --- */
+        .memories-section {
+            padding: 4rem 1.5rem;
+            text-align: center;
+        }
+        .album-wrapper {
+            max-width: 600px;
+            margin: 2rem auto 0;
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            border: 1px solid var(--border);
+            group;
+            transition: transform 0.3s ease;
+        }
+        .album-wrapper:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        /* Fake background using one of the existing images blurred */
+        .album-bg {
+            background: url('https://lh3.googleusercontent.com/pw/AP1GczMljvg8i3h9XIHYqlsRqBFR4xTgyYnumDKX15jMip4sNdFOnOyX9EUH7zIyx_XYhK0L1i1LhurS7NNVfeRPPKKC7B-uZ8-qajqRKHNXuwcWoJsICW2ElHNCKg3UBLalkD6VgcpHwfZ7HyhYNrptEUl6Yg=w593-h837-s-no-gm') center/cover;
+            height: 300px;
+            filter: blur(8px) brightness(0.6);
+            transition: 0.5s;
+        }
+        .album-wrapper:hover .album-bg { filter: blur(4px) brightness(0.4); transform: scale(1.1); }
+
+        .album-content {
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            color: white; z-index: 2;
+        }
+        .album-icon {
+            font-size: 3rem; margin-bottom: 1rem;
+            background: linear-gradient(135deg, #4285f4, #ea4335, #fbbc05, #34a853);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 10px rgba(255,255,255,0.2));
+        }
+        .btn-album {
+            margin-top: 1.5rem;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white; padding: 12px 28px; border-radius: 50px;
+            font-weight: 600; text-decoration: none;
+            transition: 0.3s;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-album:hover { background: white; color: black; }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center; padding: 3rem;
+            color: var(--text-muted); font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+        }
+        .highlight-link { color: var(--primary); text-decoration: none; font-weight: 600; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .achievements-grid { grid-template-columns: 1fr; }
+        }
+
+    </style>
+</head>
+<body class="dark-mode">
+
+    <div class="scanlines"></div>
+
+    <nav>
+        <div class="brand h2" style="margin:0; font-size:1.2rem;">Team <span>Codex</span></div>
+        <div class="theme-switch" id="themeToggle">
+            <div class="ball"></div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="badge">TOP 20 FINALIST</div>
+        <h1>IIUC NextGen <span class="highlight">Hackathon</span></h1>
+        <p>AI-Powered Youth Employment & Career Roadmap Platform solving <strong>SDG 8</strong>.</p>
+        
+        <div class="team-container">
+            <div class="member-pill"><i class="fas fa-user-astronaut"></i> Alahi Majnur Osama</div>
+            <div class="member-pill"><i class="fas fa-code"></i> Kazi Ahammad Ullah</div>
+            <div class="member-pill"><i class="fas fa-laptop-code"></i> Tahmidul Ahad</div>
+        </div>
+    </section>
+
+    <section class="grid-section">
+        <div class="info-card">
+            <div class="icon-box icon-sdg"><i class="fas fa-globe"></i></div>
+            <h2>The Challenge</h2>
+            <p><strong>SDG 8: Decent Work & Economic Growth.</strong> Many students struggle to identify relevant job opportunities, understand their skill gaps, and plan a learning journey to become employable.</p>
+        </div>
+        <div class="info-card">
+            <div class="icon-box icon-ai"><i class="fas fa-brain"></i></div>
+            <h2>The Solution</h2>
+            <p>An intelligent web platform that uses <strong>AI & NLP</strong> to parse CVs, generate personalized career roadmaps, and match candidates to jobs with a transparency score.</p>
+        </div>
+    </section>
+
+    <section class="features-wrap">
+        <div class="container">
+            <h2 style="text-align: center;">Core Architecture</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">Built for the 24-Hour Onsite Challenge</p>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="f-icon"><i class="fas fa-file-alt"></i></div>
+                    <h3>Smart CV Extraction</h3>
+                    <p>Uses NLP to automatically parse user CVs and extract key skills, roles, and experience levels into the profile.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="f-icon"><i class="fas fa-percentage"></i></div>
+                    <h3>Intelligent Matching</h3>
+                    <p>Calculates a "Match %" for every job listing based on skill overlap and provides a reason (e.g., "72% Match").</p>
+                </div>
+                <div class="feature-item">
+                    <div class="f-icon"><i class="fas fa-road"></i></div>
+                    <h3>AI Career Roadmap</h3>
+                    <p>Generates a step-by-step personalized learning path to bridge skill gaps for specific target roles.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="f-icon"><i class="fas fa-robot"></i></div>
+                    <h3>CareerBot Assistant</h3>
+                    <p>An integrated chatbot mentor to answer questions like "What should I learn next for Backend Dev?"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tech-showcase">
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+                <span style="margin-left: auto; color: #64748b;">codex_system_log.txt</span>
+            </div>
+            <div class="code-content">
+                <span class="code-line"><span class="cl-purple">root@codex</span>:<span class="cl-cyan">~</span>$ initiating_system_check...</span>
+                <span class="code-line">[OK] Authentication Module Loaded</span>
+                <span class="code-line">[OK] Database Connection (Users, Jobs, Resources)</span>
+                <span class="code-line"><span class="cl-green">>> AI Engine:</span> Analyzing Skill Gaps...</span>
+                <span class="code-line"><span class="cl-green">>> Roadmap Gen:</span> Path created for "Frontend Developer"</span>
+                <span class="code-line">[SUCCESS] Platform Ready. Unemployment reduction logic active.</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="achievements-section">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Achievements & Recognition</h2>
+            <div class="achievements-grid">
+                <div class="achievement-img-container" style="grid-row: span 2;">
+                    <img src="https://lh3.googleusercontent.com/pw/AP1GczP-NDda0V0F1kZhZ62oq0tgFZuWtlSJ1H5HqqGQA0HlTG3adPsJJEn-MJsqNuSGXxb9VsAhRsBOWcuKF1TE2VIklgJrieC11lp4DdnCpbgIxwmWvEFkroqfTjSPvfIaDPBMETjjCd_MWvUWwzrgSVBYcg=w999-h837-s-no-gm" alt="IIUC NextGen Hackathon Certificate">
+                </div>
+                <div class="achievement-col">
+                    <div class="achievement-img-container">
+                        <img src="https://lh3.googleusercontent.com/pw/AP1GczOJvwRaNh_HQB8AOwust4xnUqHH8JWyXI9DGMS5G2kdivLzFR5fLWxLjXOmO-r5n-FCuanA7DXUHPEzRXdiKBfMrRggUQZtxg1xbMIzpUoqkIOR73kUiHuXFU-E_Ap1BGF6QkOYvWIgDmX1I-oJbABXOw=w623-h837-s-no-gm" alt="WhatsApp Announcement of Top 20 Teams">
+                    </div>
+                    <div class="achievement-img-container">
+                        <img src="https://lh3.googleusercontent.com/pw/AP1GczMljvg8i3h9XIHYqlsRqBFR4xTgyYnumDKX15jMip4sNdFOnOyX9EUH7zIyx_XYhK0L1i1LhurS7NNVfeRPPKKC7B-uZ8-qajqRKHNXuwcWoJsICW2ElHNCKg3UBLalkD6VgcpHwfZ7HyhYNrptEUl6Yg=w593-h837-s-no-gm" alt="IIUC Tech Fest 2025 Top 20 Teams Ranking">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="memories-section">
+        <div class="container">
+            <h2 style="margin-bottom: 0.5rem;">Hackathon Memories</h2>
+            <p style="color: var(--text-muted);">Explore the official gallery from the 24-hour innovation marathon.</p>
+            
+            <a href="https://photos.app.goo.gl/54weYGF7PQScqzpL8" target="_blank" class="album-wrapper" style="display: block; text-decoration: none;">
+                <div class="album-bg"></div>
+                <div class="album-content">
+                    <i class="fas fa-images album-icon"></i>
+                    <h3 style="font-size: 1.5rem;">View Full Gallery</h3>
+                    <p style="opacity: 0.8; margin-top: 5px;">21 Photos • Google Photos</p>
+                    <div class="btn-album">
+                        Open Album <i class="fas fa-external-link-alt"></i>
+                    </div>
+                </div>
+            </a>
+            
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Team Codex. Built for IIUC NextGen Hackathon.</p>
+        <p style="margin-top: 10px;">
+            <a href="https://amiosama.vercel.app" class="highlight-link" target="_blank">My Portfolio</a>
+        </p>
+    </footer>
+
+    <script>
+        const toggle = document.getElementById('themeToggle');
+        const body = document.body;
+        toggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+        });
+    </script>
+
+</body>
+</html>
