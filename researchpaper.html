@@ -7,421 +7,442 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* --- THEME VARIABLES --- */
         :root {
-            --bg-dark: #0f1115;
-            --bg-card: #181b21;
-            --primary: #3b82f6; /* Modern Blue */
-            --primary-dark: #2563eb;
-            --accent: #8b5cf6; /* Violet */
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: rgba(255, 255, 255, 0.08);
-            --glass: rgba(255, 255, 255, 0.03);
-            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            /* Default to Light Mode Variables */
+            --bg-body: #ffffff;
+            --bg-card: #f8f9fa;
+            --bg-nav: rgba(255, 255, 255, 0.8);
+            --text-main: #111111;
+            --text-muted: #666666;
+            --border: #e5e5e5;
+            --accent: #2563eb;
+            --accent-glow: rgba(37, 99, 235, 0.15);
+            --shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --gradient-1: #2563eb;
+            --gradient-2: #4f46e5;
         }
 
-        /* Reset & Base */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Dark Mode Variables (Activated via class) */
+        body.dark-mode {
+            --bg-body: #000000; /* Pitch Black */
+            --bg-card: #111111;
+            --bg-nav: rgba(0, 0, 0, 0.8);
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+            --border: #333333;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.2);
+            --shadow: 0 20px 50px rgba(0,0,0,0.7);
+            --gradient-1: #60a5fa;
+            --gradient-2: #a78bfa;
+        }
+
+        /* --- RESET & BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
         
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--bg-body);
             color: var(--text-main);
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        h1, h2, h3 {
-            font-family: 'Outfit', sans-serif;
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif; /* Tech/Modern Font */
             font-weight: 700;
-            line-height: 1.1;
+            letter-spacing: -0.02em;
         }
 
-        a { text-decoration: none; transition: all 0.3s ease; }
-
-        /* Background Effects */
-        .ambient-light {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.08), transparent 25%);
-            z-index: -1;
-            pointer-events: none;
-        }
-
+        a { text-decoration: none; }
+        
         /* Container */
         .container {
-            width: 100%;
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 1.5rem;
         }
 
-        /* --- NAV --- */
+        /* --- NAVBAR --- */
         nav {
-            padding: 1.5rem 0;
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 1rem 0;
+            background: var(--bg-nav);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         .brand {
-            font-family: 'Outfit', sans-serif;
             font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-main);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
             font-size: 1.2rem;
-            background: linear-gradient(to right, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
-        .nav-link {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-left: 20px;
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            color: var(--accent);
         }
-        .nav-link:hover { color: var(--primary); }
 
         /* --- HERO SECTION --- */
         .hero {
-            padding: 6rem 0 4rem;
+            padding: 10rem 0 6rem;
             text-align: center;
             position: relative;
         }
 
-        .tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 16px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            color: var(--primary);
-            border-radius: 100px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        /* Abstract Gradient Blurs */
+        .blur-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            z-index: -1;
         }
+        .blur-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: var(--gradient-1); }
+        .blur-2 { bottom: 10%; right: -10%; width: 400px; height: 400px; background: var(--gradient-2); }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.1;
             margin-bottom: 1.5rem;
-            background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+        }
+        
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .hero p {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             color: var(--text-muted);
             max-width: 700px;
-            margin: 0 auto 2.5rem;
+            margin: 0 auto 3rem;
         }
 
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
+        /* Buttons */
         .btn {
-            padding: 0.9rem 2rem;
-            border-radius: 12px;
-            font-weight: 600;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 10px;
+            padding: 1rem 2.5rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-
+        
         .btn-primary {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            background: var(--text-main); /* Black in Light, White in Dark */
+            color: var(--bg-body); /* Inverted */
         }
         .btn-primary:hover {
-            background: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
         .btn-outline {
-            background: rgba(255, 255, 255, 0.05);
+            background: transparent;
             border: 1px solid var(--border);
             color: var(--text-main);
+            margin-left: 10px;
         }
         .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
+            border-color: var(--text-main);
         }
 
-        /* --- GLASS CARDS (Problem/Solution) --- */
-        .features-grid {
+        /* --- CARDS GRID --- */
+        .grid-section { padding: 4rem 0; }
+        
+        .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            margin: 4rem 0;
         }
 
-        .glass-card {
+        .card {
             background: var(--bg-card);
-            border: 1px solid var(--border);
             padding: 2.5rem;
-            border-radius: 20px;
+            border-radius: 24px;
+            border: 1px solid var(--border);
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            transition: all 0.4s ease;
         }
 
-        .glass-card:hover {
+        .card:hover {
             transform: translateY(-5px);
-            border-color: rgba(255, 255, 255, 0.2);
+            border-color: var(--accent);
+            box-shadow: var(--shadow);
         }
 
-        /* Gradient glow inside card */
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0; right: 0;
-            width: 150px; height: 150px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.05), transparent 70%);
-            opacity: 0.5;
-        }
-
-        .icon-box {
+        .card-icon {
             width: 50px; height: 50px;
+            background: var(--accent-glow);
+            color: var(--accent);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             margin-bottom: 1.5rem;
         }
 
-        .icon-red { background: rgba(239, 68, 68, 0.1); color: #f87171; }
-        .icon-green { background: rgba(34, 197, 94, 0.1); color: #4ade80; }
-        .icon-blue { background: rgba(59, 130, 246, 0.1); color: #60a5fa; }
+        .card h3 { margin-bottom: 0.5rem; font-size: 1.5rem; }
+        .card p { color: var(--text-muted); font-size: 0.95rem; }
 
-        /* --- METHODOLOGY --- */
-        .method-section {
-            padding: 4rem 0;
+        /* --- METHODOLOGY (Timeline style) --- */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 4rem auto;
         }
-        .section-header {
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px; /* Mobile alignment */
+            top: 0; bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+        
+        @media (min-width: 768px) {
+            .timeline::before { left: 50%; margin-left: -1px; }
+        }
+
+        .timeline-item {
+            position: relative;
             margin-bottom: 3rem;
-            text-align: center;
-        }
-        .section-header h2 { font-size: 2rem; margin-bottom: 0.5rem; }
-        .section-header p { color: var(--text-muted); }
-
-        .steps-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
+            width: 100%;
         }
 
-        .step-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border);
-            padding: 1.5rem;
-            border-radius: 16px;
-            text-align: center;
+        @media (min-width: 768px) {
+            .timeline-item { width: 50%; }
+            .timeline-item:nth-child(even) { left: 50%; padding-left: 3rem; }
+            .timeline-item:nth-child(odd) { left: 0; padding-right: 3rem; text-align: right; }
         }
-        .step-number {
-            font-size: 3rem;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.05);
-            line-height: 1;
-            margin-bottom: -10px;
+        
+        /* Mobile override */
+        @media (max-width: 767px) {
+            .timeline-item { padding-left: 3rem; }
         }
-        .step-title { font-weight: 600; margin-bottom: 5px; color: var(--primary); }
-        .step-desc { font-size: 0.85rem; color: var(--text-muted); }
+
+        .timeline-dot {
+            position: absolute;
+            width: 20px; height: 20px;
+            background: var(--bg-body);
+            border: 4px solid var(--accent);
+            border-radius: 50%;
+            top: 0;
+            z-index: 2;
+        }
+
+        @media (max-width: 767px) { .timeline-dot { left: 11px; } }
+        @media (min-width: 768px) {
+            .timeline-item:nth-child(odd) .timeline-dot { right: -10px; }
+            .timeline-item:nth-child(even) .timeline-dot { left: -10px; }
+        }
+
+        .timeline-content h4 { font-size: 1.2rem; margin-bottom: 5px; }
+        .timeline-content p { color: var(--text-muted); font-size: 0.9rem; }
 
         /* --- CERTIFICATE --- */
-        .cert-section {
-            padding: 4rem 0;
+        .cert-display {
             text-align: center;
+            padding: 4rem 0;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
         }
 
         .cert-frame {
             display: inline-block;
-            padding: 10px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+            padding: 1rem;
+            background: var(--bg-body);
+            border: 1px solid var(--border);
             border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.1);
             box-shadow: var(--shadow);
-            max-width: 800px;
-            width: 100%;
-            margin-top: 2rem;
+            max-width: 100%;
         }
 
         .cert-frame img {
-            width: 100%;
-            height: auto;
+            max-width: 100%;
             border-radius: 8px;
             display: block;
+            height: auto;
         }
 
         /* --- FOOTER --- */
         footer {
-            border-top: 1px solid var(--border);
-            padding: 3rem 0;
-            margin-top: 4rem;
             text-align: center;
-            font-size: 0.9rem;
+            padding: 3rem;
             color: var(--text-muted);
+            font-size: 0.9rem;
         }
 
-        /* --- RESPONSIVE ADJUSTMENTS --- */
-        @media (max-width: 768px) {
-            .steps-container {
-                grid-template-columns: 1fr; /* Stack steps vertically on mobile */
-            }
-            .step-card {
-                display: flex;
-                align-items: center;
-                text-align: left;
-                gap: 1rem;
-            }
-            .step-number { margin-bottom: 0; width: 40px; font-size: 2rem; }
-            .hero h1 { font-size: 2.2rem; }
+        /* --- MOBILE TWEAKS --- */
+        @media (max-width: 600px) {
+            .btn { width: 100%; justify-content: center; margin: 0 0 10px 0; }
+            .hero h1 { font-size: 2.8rem; }
         }
+
     </style>
 </head>
-<body>
+<body class="dark-mode"> <nav>
+        <div class="container nav-content">
+            <div class="brand">Alahi Majnur Osama<span style="color:var(--accent);">.</span></div>
+            <button class="theme-toggle" id="themeBtn" aria-label="Toggle Theme">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
+    </nav>
 
-    <div class="ambient-light"></div>
-
-    <div class="container">
-        <nav>
-            <div class="brand">Alahi Majnur Osama <span style="font-weight:300; opacity:0.5; font-size:0.9em;">/ Research</span></div>
-            <div>
-                <a href="https://amiosama.vercela.app/" class="nav-link">Portfolio</a>
-            </div>
-        </nav>
-    </div>
+    <div class="blur-orb blur-1"></div>
+    <div class="blur-orb blur-2"></div>
 
     <section class="hero">
         <div class="container">
-            <div class="tag"><i class="fas fa-check-circle"></i> Published Paper</div>
-            <h1>Streamlining Visitor Appointments</h1>
-            <p>An automated, web-based scheduling architecture designed to eliminate administrative inefficiencies at BGC Trust University Bangladesh.</p>
+            <h1>Streamlining<br><span>Visitor Appointments</span></h1>
+            <p>An automated, high-performance scheduling architecture designed to eliminate administrative inefficiencies at BGC Trust University Bangladesh.</p>
             
-            <div class="btn-group">
+            <div>
                 <a href="https://www.irjmets.com/paperdetail.php?paperId=0a9b99b5dd19bb09946b4a3bf2088409&title=Streamlining+Visitor+Appointments%3A+Automated+Scheduling+System+for+BGCTrust+University+Bangladesh&authpr=Marjahan+Tanjin" target="_blank" class="btn btn-primary">
-                    Read Publication <i class="fas fa-arrow-right"></i>
+                    Read Paper <i class="fas fa-arrow-right"></i>
                 </a>
                 <a href="#certificate" class="btn btn-outline">
-                    View Certificate
+                    View Cert
                 </a>
             </div>
-            <div style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
-                Authored by <strong style="color:white;">Marjahan Tanjin</strong> & <strong style="color:white;">Alahi Majnur Osama</strong>
-            </div>
         </div>
     </section>
 
-    <div class="container">
-        <div class="features-grid">
-            <div class="glass-card">
-                <div class="icon-box icon-red"><i class="fas fa-times-circle"></i></div>
-                <h3>The Challenge</h3>
-                <p style="color: var(--text-muted); margin-top: 0.5rem;">
-                    Manual visitor logs were creating significant data redundancy and long wait times. The physical presence requirement for booking slots caused scheduling conflicts and administrative bottlenecks.
-                </p>
-            </div>
-
-            <div class="glass-card">
-                <div class="icon-box icon-green"><i class="fas fa-check-circle"></i></div>
-                <h3>The Solution</h3>
-                <p style="color: var(--text-muted); margin-top: 0.5rem;">
-                    We engineered a fully automated Web Application. It uses secure algorithms for real-time slot allocation, offering a dual-interface for Admins and Visitors to manage time seamlessly.
-                </p>
-            </div>
-
-            <div class="glass-card">
-                <div class="icon-box icon-blue"><i class="fas fa-code"></i></div>
-                <h3>Core Tech</h3>
-                <p style="color: var(--text-muted); margin-top: 0.5rem;">
-                    Built using modern web standards. Features include Role-Based Access Control (RBAC), real-time database updates, and a responsive UI for mobile & desktop access.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <section class="method-section">
+    <section class="grid-section">
         <div class="container">
-            <div class="section-header">
-                <h2>Research Methodology</h2>
-                <p>A rigorous SDLC approach was used to ensure system stability.</p>
-            </div>
-
-            <div class="steps-container">
-                <div class="step-card">
-                    <div class="step-number">01</div>
-                    <div>
-                        <div class="step-title">Analysis</div>
-                        <div class="step-desc">Identified workflow bottlenecks in manual logs.</div>
-                    </div>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-bug"></i></div>
+                    <h3>The Problem</h3>
+                    <p>Legacy paper-based visitor logs caused data loss, security risks, and long physical queues at the administrative offices.</p>
                 </div>
-                <div class="step-card">
-                    <div class="step-number">02</div>
-                    <div>
-                        <div class="step-title">Design</div>
-                        <div class="step-desc">Architected secure DB & User Interface.</div>
-                    </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-code-branch"></i></div>
+                    <h3>The Solution</h3>
+                    <p>A full-stack web application implementing automated slot allocation, admin dashboards, and secure visitor authentication.</p>
                 </div>
-                <div class="step-card">
-                    <div class="step-number">03</div>
-                    <div>
-                        <div class="step-title">Dev</div>
-                        <div class="step-desc">Implementation of automation algorithms.</div>
-                    </div>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">04</div>
-                    <div>
-                        <div class="step-title">Review</div>
-                        <div class="step-desc">Testing, documentation & peer publication.</div>
-                    </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-rocket"></i></div>
+                    <h3>The Impact</h3>
+                    <p>Drastically reduced wait times and digitized the entire visitor entry workflow for better data retention.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="certificate" class="cert-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Publication Certificate</h2>
-                <p>International Research Journal of Modernization in Engineering Technology and Science</p>
+    <section class="container">
+        <h2 style="text-align:center; margin-bottom: 2rem;">Development Lifecycle</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>Requirement Analysis</h4>
+                    <p>Mapped existing manual workflows to identify bottlenecks.</p>
+                </div>
             </div>
-            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>System Architecture</h4>
+                    <p>Designed database schemas and secure frontend/backend logic.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>Implementation</h4>
+                    <p>Coding the solution using modern web technologies.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>Publication & Review</h4>
+                    <p>Peer review and publication in IRJMETS.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="certificate" class="cert-display">
+        <div class="container">
+            <h2 style="margin-bottom: 2rem;">Publication Certificate</h2>
             <div class="cert-frame">
                 <img src="https://alahimajnurosama.github.io/portfolio/assets/images/blog-1.jpg" alt="Publication Certificate">
             </div>
-
-            <div style="margin-top: 2rem;">
-                <a href="https://www.irjmets.com/" target="_blank" class="btn btn-outline" style="font-size: 0.9rem;">
-                    <i class="fas fa-external-link-alt"></i> Verify with IRJMETS
-                </a>
-            </div>
+            <br><br>
+            <a href="https://www.irjmets.com/" target="_blank" style="color: var(--accent); font-weight: 600;">Verify Publication <i class="fas fa-external-link-alt"></i></a>
         </div>
     </section>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2026 Alahi Majnur Osama. All Rights Reserved.</p>
-            <p style="margin-top: 10px;">
-                <a href="https://www.researchgate.net/profile/Alahi-Majnur-Osama" target="_blank" style="color: var(--primary);">ResearchGate</a> 
-                <span style="opacity: 0.3; margin: 0 10px;">|</span>
-                <a href="https://alahimajnurosama.github.io/portfolio/" target="_blank" style="color: var(--primary);">Portfolio</a>
-            </p>
-        </div>
+        <p>&copy; 2026 Alahi Majnur Osama. All Rights Reserved.</p>
+        <p style="margin-top:0.5rem">
+            <a href="https://alahimajnurosama.github.io/portfolio/" target="_blank" style="color:var(--text-main)">Portfolio</a> • 
+            <a href="https://www.researchgate.net/profile/Alahi-Majnur-Osama" target="_blank" style="color:var(--text-main)">ResearchGate</a>
+        </p>
     </footer>
+
+    <script>
+        const themeBtn = document.getElementById('themeBtn');
+        const body = document.body;
+        const icon = themeBtn.querySelector('i');
+
+        // Function to update icon based on current theme
+        function updateIcon() {
+            if (body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun'); // Show sun icon when in dark mode (to switch to light)
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon'); // Show moon icon when in light mode
+            }
+        }
+
+        themeBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            updateIcon();
+        });
+
+        // Initialize icon on load
+        updateIcon();
+    </script>
 
 </body>
 </html>
