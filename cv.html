@@ -31,19 +31,15 @@
 
         /* GLASS ARCHITECTURE */
         .glass-panel {
-            background: rgba(17, 24, 39, 0.75); /* Slightly darker for better contrast */
+            background: rgba(17, 24, 39, 0.75);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
             position: relative;
-            z-index: 10; /* Ensure content sits above background */
+            z-index: 10;
         }
         
-        /* HEADER SPECIFIC Z-INDEX FIX */
-        .header-section {
-            position: relative;
-            z-index: 50; /* Forces header above everything else */
-        }
+        .header-section { position: relative; z-index: 50; }
 
         /* GLOW ACCENTS */
         .glow-border-purple { border-left: 3px solid #a855f7; }
@@ -65,11 +61,8 @@
             padding: 4px 8px; border-radius: 4px; font-size: 10px; color: #e2e8f0; font-weight: 500;
         }
 
-        /* TIMELINE FIX - Enforce Containment */
-        .timeline-container {
-            position: relative; /* CRITICAL: Traps the absolute dots inside */
-            z-index: 1;
-        }
+        /* TIMELINE */
+        .timeline-container { position: relative; z-index: 1; }
         .timeline-line {
             position: absolute; left: 7px; top: 8px; bottom: 0; width: 2px;
             background: linear-gradient(to bottom, #8b5cf6, #ec4899, rgba(255,255,255,0.05));
@@ -81,10 +74,18 @@
             box-shadow: 0 0 8px rgba(168, 85, 247, 0.6);
         }
 
+        /* PROJECT CARDS WITH IMAGES */
         .project-card {
-            background: linear-gradient(180deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%);
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
             border: 1px solid rgba(148, 163, 184, 0.1); border-radius: 8px; padding: 10px;
+            transition: transform 0.2s; overflow: hidden;
         }
+        .project-thumb {
+            width: 100%; height: 60px; object-fit: cover; border-radius: 4px; 
+            margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.8; transition: opacity 0.2s;
+        }
+        .project-card:hover .project-thumb { opacity: 1; }
 
         .lang-bar-bg { background: rgba(255,255,255,0.1); height: 4px; border-radius: 2px; overflow: hidden; }
         .lang-bar-fill { height: 100%; background: #3b82f6; border-radius: 2px; }
@@ -98,7 +99,7 @@
         }
         .social-btn:hover { background: rgba(139, 92, 246, 0.2); color: white; border-color: #a855f7; transform: translateY(-2px); }
 
-        /* PRINT BUTTON STYLE */
+        /* PRINT BUTTON */
         .print-fab {
             position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
             background: #a855f7; color: white; border-radius: 50%;
@@ -108,13 +109,7 @@
             transition: transform 0.2s, background 0.2s;
         }
         .print-fab:hover { transform: scale(1.1); background: #9333ea; }
-        .tooltip {
-            position: absolute; right: 70px; background: rgba(0,0,0,0.8);
-            color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px;
-            white-space: nowrap; opacity: 0; transition: opacity 0.3s; pointer-events: none;
-        }
-        .print-fab:hover .tooltip { opacity: 1; }
-
+        
         @media print {
             body { background: none; display: block; margin: 0; padding: 0; }
             .print-fab { display: none !important; }
@@ -127,7 +122,6 @@
     <!-- PRINT BUTTON -->
     <div class="print-fab" onclick="window.print()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-        <span class="tooltip">Print / Save PDF</span>
     </div>
 
     <div id="resume-canvas">
@@ -137,7 +131,10 @@
             <header class="flex flex-col gap-4 header-section">
                 
                 <!-- Nameplate -->
-                <div class="glass-panel p-5 flex items-center justify-center border-t border-purple-500/40 shadow-[0_0_40px_rgba(124,58,237,0.1)]">
+                <div class="glass-panel p-5 flex items-center justify-center border-t border-purple-500/40 shadow-[0_0_40px_rgba(124,58,237,0.1)] relative overflow-hidden">
+                    <!-- Optional: Add Profile Pic here if you have one -->
+                    <!-- <img src="your_photo.jpg" class="w-16 h-16 rounded-full border-2 border-purple-500 absolute left-6 object-cover"> -->
+                    
                     <h1 class="text-[60px] font-bold leading-none tracking-tight text-white font-display text-center">
                         ALAHI MAJNUR OSAMA
                     </h1>
@@ -166,7 +163,7 @@
                     </div>
                 </div>
 
-                <!-- Direct Contact Bar -->
+                <!-- Contact Bar -->
                 <div class="glass-panel py-2.5 px-6 flex justify-between items-center text-xs">
                     <div class="flex gap-8 text-gray-300">
                         <span class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> +880 164-277-8252</span>
@@ -175,9 +172,6 @@
                     <div class="flex gap-6">
                         <a href="https://amiosama.vercel.app" class="flex items-center gap-1.5 text-purple-400 font-medium hover:text-white">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> amiosama.vercel.app
-                        </a>
-                        <a href="#" class="flex items-center gap-1.5 text-gray-400 hover:text-white">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg> GitHub: Th3UrbanGuy
                         </a>
                     </div>
                 </div>
@@ -195,12 +189,11 @@
                         <p class="text-gray-300 text-xs leading-relaxed text-justify">
                             Hands-on <strong>Tech Explorer</strong> and Software Engineer with a "ship-fast" mindset. 
                             Specialized in AI-assisted coding, automation, and rapid prototyping. I dive into technical issues to find 
-                            innovative solutions and stay constantly updated with emerging trends like AI Agents & Web3. 
-                            Proven ability to lead teams, organize tech events, and build secure products.
+                            innovative solutions and stay constantly updated with emerging trends like AI Agents & Web3.
                         </p>
                     </section>
 
-                    <section class="glass-panel p-5 flex-1">
+                     <section class="glass-panel p-5 flex-1">
                         <h3 class="text-lg font-bold text-cyan-400 mb-5 uppercase tracking-wide">Professional History</h3>
                         <!-- Added 'timeline-container' class to force context -->
                         <div class="relative ml-2 pl-6 space-y-7 timeline-container">
@@ -261,7 +254,6 @@
                             </div>
                         </div>
                     </section>
-                        
 
                     <section class="glass-panel p-5 bg-gradient-to-r from-yellow-900/10 to-transparent border border-yellow-500/10">
                         <h3 class="text-sm font-bold text-yellow-500 mb-3 uppercase">🏆 Honors & Certifications</h3>
@@ -284,14 +276,12 @@
                             </div>
                         </div>
                     </section>
-
                 </div>
 
                 <!-- RIGHT COLUMN -->
                 <div class="col-span-5 flex flex-col gap-5">
 
                     <section class="flex flex-col gap-3">
-                        
                         <!-- Cyber Security -->
                         <div class="glass-panel p-3 border-l-2 border-red-500">
                             <h4 class="text-[10px] font-bold text-red-400 uppercase mb-2">Cyber Security</h4>
@@ -306,7 +296,6 @@
                                 <span class="skill-tag">Firewalls</span>
                             </div>
                         </div>
-
                         <!-- Dev & Web -->
                         <div class="glass-panel p-3 border-l-2 border-purple-500">
                             <h4 class="text-[10px] font-bold text-purple-400 uppercase mb-2">Dev & Web</h4>
@@ -321,7 +310,6 @@
                                 <span class="skill-tag">REST APIs</span>
                             </div>
                         </div>
-
                         <!-- System & Ops -->
                         <div class="glass-panel p-3 border-l-2 border-green-500">
                             <h4 class="text-[10px] font-bold text-green-400 uppercase mb-2">System & Ops</h4>
@@ -335,7 +323,6 @@
                                 <span class="skill-tag">Vercel/Netlify</span>
                             </div>
                         </div>
-
                         <!-- Design & Soft Skills -->
                         <div class="glass-panel p-3 border-l-2 border-pink-500">
                             <h4 class="text-[10px] font-bold text-pink-400 uppercase mb-2">Design & Soft Skills</h4>
@@ -345,31 +332,6 @@
                                 <span class="skill-tag">Leadership</span>
                                 <span class="skill-tag">Problem Solving</span>
                                 <span class="skill-tag">Team Management</span>
-                            </div>
-                        </div>
-
-                    </section>
-
-                    <section class="glass-panel p-4">
-                        <h4 class="text-[10px] font-bold text-blue-400 uppercase mb-3">Languages</h4>
-                        <div class="space-y-3">
-                            <div>
-                                <div class="flex justify-between text-[10px] text-gray-300 mb-1">
-                                    <span>Bangla (Native)</span> <span class="text-blue-400">100%</span>
-                                </div>
-                                <div class="lang-bar-bg"><div class="lang-bar-fill" style="width: 100%"></div></div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-[10px] text-gray-300 mb-1">
-                                    <span>English (Intermediate)</span> <span class="text-blue-400">80%</span>
-                                </div>
-                                <div class="lang-bar-bg"><div class="lang-bar-fill" style="width: 80%"></div></div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-[10px] text-gray-300 mb-1">
-                                    <span>Hindi (Intermediate)</span> <span class="text-blue-400">70%</span>
-                                </div>
-                                <div class="lang-bar-bg"><div class="lang-bar-fill" style="width: 70%"></div></div>
                             </div>
                         </div>
                     </section>
@@ -438,14 +400,20 @@
                     <a href="#" class="social-btn" title="X">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768-6.768m2.46-2.46L20 4"/></svg>
                     </a>
+                    <a href="https://burnt-iguanadon-520.notion.site/osama" class="social-btn" title="Notion">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4.19 4.55C3.03 3.94 2.97 4.96 2.97 4.96V19.36C2.97 19.36 2.92 20.26 4.09 20.84C5.28 21.43 5.59 20.25 5.59 20.25L15.51 7.45V19.4C15.51 19.4 15.6 20.24 16.7 20.88C17.81 21.52 18.17 20.35 18.17 20.35V5.9C18.17 5.9 18.14 4.86 16.92 4.27C15.72 3.68 15.42 4.83 15.42 4.83L5.5 17.66V5.08C5.5 5.08 5.44 4.14 4.19 4.55Z"/>
+    </svg>
+</a>
+<a href="https://alahimajnurosama.bio.link/" class="social-btn" title="Bio Link">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+    </svg>
+</a>
                 </div>
-                <p class="text-[9px] text-gray-600 font-mono tracking-widest uppercase">
-                    Designed with Vibe Coding Architecture | 2026
-                </p>
             </footer>
-
         </div>
     </div>
-
 </body>
 </html>
