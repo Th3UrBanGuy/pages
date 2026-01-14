@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Codex | CUET Micro-Ops Hackathon</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- THEME CONFIGURATION --- */
+        :root {
+            /* Light Mode */
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            
+            /* DevOps Accents */
+            --accent: #2563eb; /* Docker Blue */
+            --success: #10b981; /* Deploy Green */
+            --warning: #f59e0b;
+            --terminal-bg: #1e293b;
+            
+            --pipeline-line: #cbd5e1;
+        }
+
+        body.dark-mode {
+            /* Dark Mode */
+            --bg-body: #0b1120; /* Deep Navy */
+            --bg-card: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            
+            /* Neon Accents */
+            --accent: #3b82f6;
+            --success: #34d399;
+            --warning: #fbbf24;
+            --terminal-bg: #0f172a;
+            
+            --pipeline-line: #475569;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* --- NAV --- */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 4rem;
+        }
+        .logo { font-weight: 800; font-size: 1.25rem; letter-spacing: -0.5px; }
+        .logo span { color: var(--accent); }
+
+        .theme-btn {
+            background: none; border: 1px solid var(--border);
+            color: var(--text-main); padding: 8px 12px; border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* --- HERO --- */
+        .hero { text-align: center; padding: 2rem 0 5rem; }
+        
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 16px; background: rgba(16, 185, 129, 0.1); 
+            border: 1px solid var(--success); color: var(--success);
+            border-radius: 50px; font-size: 0.85rem; font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem;
+        }
+
+        .hero p {
+            max-width: 700px; margin: 0 auto 2.5rem;
+            color: var(--text-muted); font-size: 1.1rem;
+        }
+
+        /* --- TEAM GRID --- */
+        .team-grid {
+            display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+        }
+        .member-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            padding: 1rem 1.5rem; border-radius: 12px;
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none; color: var(--text-main);
+            transition: transform 0.2s;
+        }
+        .member-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+        .role { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; display: block;}
+
+        /* --- CHALLENGE CARDS --- */
+        .challenge-section { padding: 4rem 0; }
+        .grid-2 {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 16px; padding: 2rem;
+            position: relative; overflow: hidden;
+        }
+        .card h3 { font-size: 1.25rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px; }
+        .card p { font-size: 0.95rem; color: var(--text-muted); }
+        
+        .check-icon { color: var(--success); }
+
+        /* --- ARCHITECTURE DIAGRAM (CSS ART) --- */
+        .arch-diagram {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 16px; padding: 3rem; margin: 4rem 0;
+            text-align: center;
+        }
+        .diagram-flow {
+            display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+        }
+        .d-box {
+            padding: 10px 20px; border-radius: 6px;
+            background: var(--bg-body); border: 1px solid var(--border);
+            font-weight: 600;
+        }
+        .d-box.highlight { border-color: var(--accent); color: var(--accent); }
+        .arrow { color: var(--text-muted); }
+
+        /* --- PIPELINE VISUALIZER --- */
+        .pipeline-wrap { margin-top: 1.5rem; display: flex; align-items: center; gap: 5px; opacity: 0.8; }
+        .pipe-step {
+            font-size: 0.75rem; font-weight: 700; color: var(--text-muted);
+            display: flex; align-items: center; gap: 5px;
+        }
+        .pipe-line { height: 2px; width: 30px; background: var(--border); }
+        .pipe-step.done { color: var(--success); }
+        .pipe-line.done { background: var(--success); }
+
+        /* --- TERMINAL WINDOW --- */
+        .terminal {
+            background: var(--terminal-bg); border-radius: 10px;
+            padding: 1.5rem; font-family: 'JetBrains Mono', monospace;
+            color: #e2e8f0; font-size: 0.9rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            margin-top: 2rem; text-align: left;
+        }
+        .cmd { color: var(--success); margin-right: 8px; }
+        .comment { color: #64748b; }
+
+        /* --- MEMORIES & CERT --- */
+        .memories-grid {
+            display: grid; grid-template-columns: 1fr; gap: 2rem;
+            margin-top: 2rem;
+        }
+        @media(min-width: 768px) { .memories-grid { grid-template-columns: 1.5fr 1fr; } }
+        
+        .img-card {
+            border-radius: 16px; overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .img-card img { width: 100%; height: auto; display: block; }
+        .caption { padding: 10px; font-size: 0.85rem; color: var(--text-muted); background: var(--bg-card); border-top: 1px solid var(--border); }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--border); padding: 3rem 0;
+            text-align: center; margin-top: 5rem; color: var(--text-muted);
+        }
+        
+    </style>
+</head>
+<body class="dark-mode">
+
+    <div class="container">
+        
+        <nav>
+            <div class="logo">Team <span>Codex</span></div>
+            <button class="theme-btn" id="themeToggle"><i class="fas fa-adjust"></i></button>
+        </nav>
+
+        <section class="hero">
+            <div class="status-badge">
+                <i class="fas fa-check-circle"></i> 100% CHALLENGES COMPLETED
+            </div>
+            
+            <h1>CUET Micro-Ops <br><span style="color:var(--accent)">Hackathon 2025</span></h1>
+            
+            <p>
+                A <strong>Backend & Cloud Containerization Techathon</strong> where we engineered a fault-tolerant file download system capable of handling long-processing tasks (10s-120s) without timeouts.
+            </p>
+
+            <div class="team-grid">
+                <a href="https://amiosama.vercel.app" target="_blank" class="member-card">
+                    <div>
+                        <span class="role">Ideaology and Combiner</span>
+                        Alahi Majnur Osama
+                    </div>
+                </a>
+                <a href="https://ahammad.app" target="_blank" class="member-card">
+                    <div>
+                        <span class="role">Frontend Developer</span>
+                        Kazi Ahammad Ullah
+                    </div>
+                </a>
+                <a href="https://tazwar.app" target="_blank" class="member-card">
+                    <div>
+                        <span class="role">DevOps Engineer</span>
+                        Tajwar Saiyeed Abid
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <div class="arch-diagram">
+            <h3 style="margin-bottom: 2rem; font-weight: 600;">System Architecture</h3>
+            <div class="diagram-flow">
+                <div class="d-box">Client</div>
+                <div class="arrow">→</div>
+                <div class="d-box">Load Balancer</div>
+                <div class="arrow">→</div>
+                <div class="d-box highlight">API Gateway</div>
+                <div class="arrow">→</div>
+                <div class="d-box highlight">Job Queue (Redis)</div>
+                <div class="arrow">→</div>
+                <div class="d-box">Worker</div>
+                <div class="arrow">→</div>
+                <div class="d-box">S3 Storage</div>
+            </div>
+            <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+                [cite_start]Implemented <strong>Asynchronous Processing Pattern</strong> to bypass 504 Gateway Timeouts[cite: 86].
+            </p>
+        </div>
+
+        <section class="challenge-section">
+            <h2 style="margin-bottom: 2rem;">Technical Achievements</h2>
+            <div class="grid-2">
+                
+                <div class="card">
+                    <h3><i class="fas fa-server check-icon"></i> Self-Hosted S3 Integration</h3>
+                    <p>Integrated MinIO/RustFS into the Docker ecosystem. Configured the API to seamlessly connect to self-hosted buckets for storage.</p>
+                    <div style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7;">
+                        [cite_start]<i class="fas fa-code-branch"></i> Challenge #1 Solved [cite: 39]
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-network-wired check-icon"></i> Long-Running Ops</h3>
+                    [cite_start]<p>Solved the "100s Timeout" issue [cite: 86] using a polling/webhook architecture. Handled variable processing times (10s-120s) gracefully.</p>
+                    <div style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7;">
+                        [cite_start]<i class="fas fa-code-branch"></i> Challenge #2 Solved [cite: 79]
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-rocket check-icon"></i> CI/CD Pipeline</h3>
+                    <p>Automated Linting, Testing, and Building on every push. Configured pipeline to fail fast on errors.</p>
+                    
+                    <div class="pipeline-wrap">
+                        <div class="pipe-step done"><i class="fas fa-check"></i> Lint</div>
+                        <div class="pipe-line done"></div>
+                        <div class="pipe-step done"><i class="fas fa-check"></i> Test</div>
+                        <div class="pipe-line done"></div>
+                        <div class="pipe-step done"><i class="fas fa-check"></i> Build</div>
+                        <div class="pipe-line done"></div>
+                        <div class="pipe-step done"><i class="fas fa-check"></i> Deploy</div>
+                    </div>
+                </div>
+
+                <div class="card" style="border-color: var(--accent);">
+                    <h3><i class="fas fa-eye check-icon"></i> Observability (Bonus)</h3>
+                    [cite_start]<p>Integrated <strong>Sentry</strong> for error tracking and <strong>OpenTelemetry</strong> for distributed tracing to monitor system health[cite: 204].</p>
+                    <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--accent); font-weight: 600;">
+                        <i class="fas fa-star"></i> Optional Challenge Completed
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section>
+            <h2 style="margin-bottom: 1rem;">Deployment</h2>
+            <p style="color: var(--text-muted);">Deployed successfully on <strong>Brilliant Cloud</strong>.</p>
+            
+            <div class="terminal">
+                <div><span class="cmd">$</span> docker-compose up --build -d</div>
+                <div class="comment"># Building services... [Done]</div>
+                <div><span class="cmd">$</span> npm run test:e2e</div>
+                <div class="comment"># Running End-to-End Tests...</div>
+                <div style="color: var(--success)">✓ Storage Check Passed</div>
+                <div style="color: var(--success)">✓ Long Download Handled (Job ID: #8821)</div>
+                <div style="color: var(--success)">✓ Observability Traces Sent</div>
+                <div><span class="cmd">$</span> echo "All Systems Operational"</div>
+            </div>
+        </section>
+
+        <section class="challenge-section">
+            <h2 style="margin-bottom: 2rem;">Gallery</h2>
+            <div class="memories-grid">
+                <div class="img-card">
+                    <img src="https://lh3.googleusercontent.com/pw/AP1GczOTTxaZRBFNGBYzyjEbmhuFWwgf_CgoG6jT94hf_qs1bkYov2lUyBMYTs5o1gaWEQzqbr0OlLraav-EA_gl84IROd2ATx8MjAfYzMZWza1iFqkTu2t1QF9zorvzbx408pfbohgIvxD1S7yGXVyLwgq5xw=w800-h600-s-no-gm" alt="Team Codex Hackathon Memories">
+                    <div class="caption">Hackathon Memories: 24 Hours of Coding</div>
+                </div>
+                <div class="img-card">
+                    <img src="https://lh3.googleusercontent.com/pw/AP1GczM4SxDqQSgbB0s8rSz9778RI24v4LmvSA3LV4mlMrQkfScDQuI3-2rasYgL14IjPBX25FtYYqpPvUqoNvbLn72KNe0PW5ivufGcVLoxrnJhctr7K9l9eRSjoAvBuWO9mcgFI8AvzkO8K35zTsZyxTfgpA=w1185-h837-s-no-gm" alt="Participation Certificate">
+                    <div class="caption">Certificate of Participation</div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Team Codex. Built for CUET Micro-Ops Hackathon.</p>
+            <p style="font-size: 0.85rem; margin-top: 10px;">Tech Stack: Node.js • Hono • Docker • Redis • S3 • OpenTelemetry</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const toggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const icon = toggle.querySelector('i');
+
+        toggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if(body.classList.contains('dark-mode')){
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-adjust');
+            } else {
+                icon.classList.remove('fa-adjust');
+                icon.classList.add('fa-sun');
+            }
+        });
+    </script>
+</body>
+</html>
