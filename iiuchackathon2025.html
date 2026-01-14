@@ -249,7 +249,6 @@
             border-color: var(--primary);
         }
 
-        /* Fake background using one of the existing images blurred */
         .album-bg {
             background: url('https://lh3.googleusercontent.com/pw/AP1GczMljvg8i3h9XIHYqlsRqBFR4xTgyYnumDKX15jMip4sNdFOnOyX9EUH7zIyx_XYhK0L1i1LhurS7NNVfeRPPKKC7B-uZ8-qajqRKHNXuwcWoJsICW2ElHNCKg3UBLalkD6VgcpHwfZ7HyhYNrptEUl6Yg=w593-h837-s-no-gm') center/cover;
             height: 300px;
@@ -289,7 +288,8 @@
             color: var(--text-muted); font-size: 0.9rem;
             border-top: 1px solid var(--border);
         }
-        .highlight-link { color: var(--primary); text-decoration: none; font-weight: 600; }
+        .highlight-link { color: var(--primary); text-decoration: none; font-weight: 600; margin: 0 5px; transition: 0.3s; }
+        .highlight-link:hover { color: var(--secondary); text-shadow: 0 0 10px var(--secondary-glow); }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -422,7 +422,11 @@
 
     <footer>
         <p>© 2026 Team Codex. Built for IIUC NextGen Hackathon.</p>
-        <p style="margin-top: 10px;">
+        <p style="margin-top: 1.5rem; display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
+            <a href="https://github.com/Ahammad204/Joblens" target="_blank" class="highlight-link"><i class="fab fa-github"></i> Frontend Repo</a>
+            <span style="opacity: 0.3;">|</span>
+            <a href="https://github.com/Ahammad204/JoblensServer" target="_blank" class="highlight-link"><i class="fab fa-server"></i> Backend Repo</a>
+            <span style="opacity: 0.3;">|</span>
             <a href="https://amiosama.vercel.app" class="highlight-link" target="_blank">My Portfolio</a>
         </p>
     </footer>
